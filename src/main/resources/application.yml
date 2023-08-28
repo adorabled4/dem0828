@@ -1,0 +1,8 @@
+spring:
+  # TODO modify the configuration
+  rabbitmq:
+    host: 192.168.159.134
+    port: 5672
+    username: dhx
+    password: qwer
+    virtual-host: /
