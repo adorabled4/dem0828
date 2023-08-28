@@ -36,7 +36,7 @@ public class MessageConsumer {
     @RabbitListener(bindings = @QueueBinding(value = @Queue(name = MQConstant.QUEUE_NAME),
             exchange = @Exchange(value = MQConstant.EXCHANGE_NAME,type = ExchangeTypes.DIRECT), key = MQConstant.ROUTE_KEY))
     @Retryable(value = GenException.class, maxAttempts = 5,backoff = @Backoff(delay = 1000*60))
-    public void demoListener(String message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long deliverTag) {
+    private void demoListener(String message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long deliverTag) {
         log.info("{}th run demoListener",count++);
         UserEntity user = new UserEntity();
         if (message != null) {
