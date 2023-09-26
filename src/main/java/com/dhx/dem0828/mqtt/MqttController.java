@@ -1,5 +1,7 @@
 package com.dhx.dem0828.mqtt;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,7 @@ import javax.annotation.Resource;
  **/
 @RequestMapping("/mqtt")
 @RestController
+@Api(value = "mqtt测试接口")
 public class MqttController {
 
     @Resource
@@ -26,7 +29,9 @@ public class MqttController {
      * @return
      */
     @GetMapping(value = "/send")
+    @ApiOperation("发布消息")
     public String testRec(String topic, String message, int qos) {
+        mqttServer.publishConnect();
         mqttServer.sendMQTTMessage(topic, message, 0);
         String data = "发送了一条主题是‘" + topic + "’，内容是:" + message + "，消息级别 " + qos;
         return data;
@@ -34,6 +39,7 @@ public class MqttController {
 
 
     @GetMapping(value = "/sub")
+    @ApiOperation("订阅topic")
     public String testSub(String topic) {
         mqttServer.init(topic, 2);
         mqttServer.subscribeConnect();

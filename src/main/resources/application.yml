@@ -6,3 +6,27 @@ spring:
     username: dhx
     password: qwer
     virtual-host: /
+    
+knife4j:
+  enable: true
+  openapi:
+    title: demo_backend
+    description: 后端接口文档
+    email: dhx2648466390@163.com
+    concat: adorabled4
+    url: https://blog.dhx.icu
+    version: v4.0
+    license: Apache 2.0
+    license-url: https://blog.dhx.icu
+    terms-of-service-url: https://blog.dhx.icu
+    group:
+      dev:
+        group-name: 开发环境
+        api-rule: package
+        api-rule-resources:
+          - com.dhx.dem0828
+      prod:
+        group-name: 线上环境
+        api-rule: package
+        api-rule-resources:
+          - com.dhx.dem0828
