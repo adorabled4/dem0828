@@ -1,4 +1,4 @@
-package com.dhx.cglibdemo;
+package com.dhx.dem0828.cglibdemo;
 
 import com.dhx.dem0828.model.UserEntity;
 
