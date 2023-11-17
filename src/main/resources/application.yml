@@ -6,7 +6,27 @@ spring:
     username: dhx
     password: qwer
     virtual-host: /
-    
+
+spark:
+  appId: 6681eae7
+  apiKey: 11111111
+  apiSecret: 111111111111111
+  modelVersion: 3
+  defaultHostInfo:
+    host: spark-api.xf-yun.com
+    path: /v3.1/chat
+    domain: generalv3
+  hostInfos:
+    - host: spark-api.xf-yun.com
+      path: /v1.1/chat
+      domain: general
+    - host: spark-api.xf-yun.com
+      path: /v2.1/chat
+      domain: generalv2
+    - host: spark-api.xf-yun.com
+      path: /v3.1/chat
+      domain: generalv3
+
 knife4j:
   enable: true
   openapi:
