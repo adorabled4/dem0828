@@ -2,15 +2,18 @@ package com.dhx.dem0828.controller;
 
 import com.dhx.dem0828.manager.WebSocketServer;
 import com.dhx.dem0828.mq.MessageProducer;
+import com.dhx.dem0828.spark.SparkChatListener;
 import com.dhx.dem0828.spark.SparkManager;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author adorabled4
@@ -47,12 +50,26 @@ public class TestController {
         }
     }
 
-    @PostMapping("/test/spark")
-    public String chat(@RequestParam("question") String question) {
-        try {
-            return sparkManager.doChat(132, question);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    @GetMapping(value = "/test/spark", produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+    public SseEmitter chat(@RequestParam("question") String question) {
+        long userId = 132;
+        final SseEmitter emitter = sparkManager.getConn(userId);
+        CompletableFuture.runAsync(()->{
+            StringBuilder answerCache = new StringBuilder();
+            SparkChatListener sparkChatListener = sparkManager.doChat(userId, question, answerCache);
+            int lastIdx = 0, len = 0;
+            try {
+                while (!sparkChatListener.getWsCloseFlag()) {
+                    if(lastIdx < (len = answerCache.length())){
+                        emitter.send(answerCache.substring(lastIdx, len).getBytes());
+                        lastIdx = len;
+                    }
+                    Thread.sleep(100);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return emitter;
     }
 }

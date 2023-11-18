@@ -33,16 +33,16 @@ public class AuthUtil {
      * @param path      路径
      * @return {@link String}
      */
-    public static String genAuthUrl(String apiKey, String apiSecret, String host, String path) throws Exception {
+    public static String genAuthUrl(String apiKey, String apiSecret, String host, String path)   {
         if (StringUtils.isAnyBlank(apiKey, apiSecret, host, path)) {
-            throw new InvalidParameterException("参数不能为空!");
+            return null;
         }
         try {
             String date = getRFC1123Date();
             String httpUrl = generateAuthorization(date, host, path, apiSecret, apiKey);
             return httpUrl;
         } catch (Exception e) {
-            throw e;
+            return null;
         }
     }
 

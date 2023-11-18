@@ -23,6 +23,11 @@ public class SparkChatListener extends WebSocketListener {
      * websocket连接关闭标志
      */
     private Boolean wsCloseFlag=false;
+
+    public SparkChatListener(StringBuilder answer) {
+        this.totalAnswer=answer;
+    }
+
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
         super.onOpen(webSocket, response);
